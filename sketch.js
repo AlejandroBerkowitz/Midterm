@@ -1,26 +1,52 @@
+let posX, posY, circleSize, angle, color;
+
+circleSize = [150, 100, 88, 394];
+
 function setup() {
-  // Create a canvas that fills the entire browser window
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(400, 400);
+  background('rgb(0,0,0)');
+  angleMode(DEGREES);
+  
+  for(i=0;i<(height+circleSize[0]);i++){
+    fill('rgb(0,0,255)');
+    stroke('rgb(255,255,255)');
+    strokeWeight(0.5);
+    circle(10*sin(10*i),i,circleSize[0]);
+    circle(-10*sin(10*i)+width,i,circleSize[0]);
+  }
+
+  posX = 0;
+  posY = 0;
+  angle = 0;
+  color = 0;
+
 }
 
-function draw() {
-  // Set background to black
-  background(0);
+function plant(size){
+  noFill();
+  stroke('rgb(255,0,255)');
+  strokeWeight(size);
+  arc(width/2,height,posX,posY,angle+5*(sin(5*posX))^2,angle+2+5*sin(5*posX));
+}
 
-  // Map the mouse position to RGB values for dynamic color changes
-  let r = map(mouseX, 0, width, 0, 255);
-  let g = map(mouseY, 0, height, 0, 255);
-  let b = map(mouseX + mouseY, 0, width + height, 0, 255);
-
-  // Set the fill color of the circle
-  fill(r, g, b);
+function draw(){
+  noFill();
+  stroke(250,color,0);
+  strokeWeight(5);
+  arc(width/2,height/4,10+posX,10+posY,angle+5*sin(5*posX),angle+2+5*sin(5*posX));
+  posX += 2;
+  posY += 2;
+  color += 2;
   noStroke();
-
-  // Draw a circle in the center of the canvas
-  ellipse(width / 2, height / 2, 200, 200);
-}
-
-// Update canvas size when the window is resized
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  fill('rgb(255,0,0)');  
+  circle(width/2, height/4, circleSize[1]);
+  plant(1);
+  
+  if((10+posX) == width){
+    posX = 0;
+    posY = 0;
+    angle += 170;
+    color = 0;
+  }
+ 
 }
